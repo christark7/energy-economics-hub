@@ -1,0 +1,24 @@
+[Unit]
+Description=Christark Energy Economics Hub dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=energyhub
+Group=energyhub
+WorkingDirectory=/opt/christark-energy-hub
+Environment=AZURE_STORAGE_ACCOUNT=energystoragechris
+Environment=AZURE_STORAGE_CONTAINER=energyblob
+Environment=AZURE_STORAGE_UPLOADS=true
+ExecStart=/opt/christark-energy-hub/.venv/bin/python -m streamlit run dashboard.py --server.address 127.0.0.1 --server.port 8501 --server.headless true
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/christark-energy-hub
+
+[Install]
+WantedBy=multi-user.target

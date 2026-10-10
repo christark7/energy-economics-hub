@@ -1,0 +1,8 @@
+{
+  "version": "1.0",
+  "name": "EnergyHubSemanticModel",
+  "dataAccess": {
+    "source": "excel",
+    "path": "../outputs/energy_hub_data.xlsx"
+  }
+}

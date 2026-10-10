@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "name": "Energy Hub",
+  "id": "energy-hub-report",
+  "datasetReference": {
+    "byPath": {
+      "path": "../outputs/energy_hub_data.xlsx"
+    }
+  }
+}

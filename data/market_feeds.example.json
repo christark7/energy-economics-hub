@@ -1,0 +1,104 @@
+{
+  "sources": [
+    {
+      "type": "eia_retail",
+      "name": "EIA NY residential retail electricity",
+      "enabled": false,
+      "api_key_env": "EIA_API_KEY",
+      "start": "2025-01",
+      "end": "2025-12",
+      "state": "NY",
+      "sector": "RES"
+    },
+    {
+      "type": "eia_petroleum",
+      "name": "EIA U.S. regular gasoline retail",
+      "enabled": false,
+      "api_key_env": "EIA_API_KEY",
+      "product_code": "EPMR",
+      "region_code": "NUS",
+      "start": "2026-01-01",
+      "end": "2026-10-10",
+      "commodity": "gasoline_regular"
+    },
+    {
+      "type": "eia_petroleum",
+      "name": "EIA U.S. No. 2 diesel retail",
+      "enabled": false,
+      "api_key_env": "EIA_API_KEY",
+      "product_code": "EPD2D",
+      "region_code": "NUS",
+      "start": "2026-01-01",
+      "end": "2026-10-10",
+      "commodity": "diesel_no2"
+    },
+    {
+      "type": "commodities_api_latest",
+      "name": "Commodities-API crude benchmarks",
+      "enabled": false,
+      "api_key_env": "COMMODITIES_API_KEY",
+      "base_currency": "USD",
+      "symbols": ["WTIOIL", "BRENTOIL"],
+      "region": "global benchmark",
+      "market": "future",
+      "commodity_aliases": {
+        "WTIOIL": "wti_crude_front_month",
+        "BRENTOIL": "brent_crude_front_month"
+      }
+    },
+    {
+      "type": "http",
+      "name": "OilPriceAPI selected benchmarks",
+      "enabled": false,
+      "url": "https://api.oilpriceapi.com/v1/prices/latest",
+      "format": "json",
+      "records_path": "data.prices",
+      "params": {"by_code": "WTI_USD,BRENT_CRUDE_USD,GASOLINE_USD"},
+      "token_env": "OILPRICEAPI_KEY",
+      "auth_prefix": "Token ",
+      "field_map": {
+        "observed_at": ["as_of", "observed_at", "source_date", "created_at"],
+        "price": "price",
+        "commodity": "code",
+        "currency": "currency",
+        "unit": "unit",
+        "market": "type",
+        "source_detail": ["source", "data_status"],
+        "is_stale": ["stale", "data_status"],
+        "is_synthetic": "synthetic"
+      },
+      "defaults": {"region": "global benchmark"}
+    },
+    {
+      "type": "entsoe_day_ahead",
+      "name": "ENTSO-E day-ahead electricity",
+      "enabled": false,
+      "token_env": "ENTSOE_API_TOKEN",
+      "in_domain": "REPLACE_WITH_BIDDING_ZONE_EIC",
+      "period_start": "2025-01-01T00:00:00+00:00",
+      "period_end": "2025-01-02T00:00:00+00:00"
+    },
+    {
+      "type": "http",
+      "name": "GlobalPetrolPrices licensed feed",
+      "enabled": false,
+      "url": "REPLACE_WITH_LICENSED_XML_FEED_URL",
+      "format": "xml",
+      "record_tag": "REPLACE_WITH_REPEATED_RECORD_ELEMENT",
+      "username_env": "FUEL_FEED_USERNAME",
+      "password_env": "FUEL_FEED_PASSWORD",
+      "field_map": {
+        "observed_at": "REPLACE_WITH_TIMESTAMP_FIELD",
+        "price": "price",
+        "region": "REPLACE_WITH_PROVIDER_COUNTRY_OR_REGION_FIELD",
+        "commodity": "REPLACE_WITH_FUEL_TYPE_FIELD",
+        "currency": "currency",
+        "unit": "unit",
+        "company": "provider"
+      },
+      "defaults": {
+        "market": "retail"
+      }
+    }
+  ]
+}

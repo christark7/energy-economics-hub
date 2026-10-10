@@ -1,0 +1,13 @@
+data/market_feeds.json
+data/raw_energy_market.csv
+outputs/
+.env
+.env.*
+!.env.example
+.venv/
+.pytest_cache/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.coverage
+.streamlit/secrets.toml
