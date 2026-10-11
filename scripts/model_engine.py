@@ -2,6 +2,7 @@
 from pathlib import Path
 import pandas as pd
 import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 
 def run_model(df=None):
@@ -59,6 +60,18 @@ def run_model(df=None):
     })
     
     metrics_df.to_csv("outputs/model_metrics.csv", index=False)
+
+    # --- CALCULATE AND EXPORT VIF METRICS ---
+    vif_data = []
+    for i in range(X_design.shape[1]):
+        vif_val = variance_inflation_factor(X_design.values, i)
+        vif_data.append({
+            "Variable": X_design.columns[i],
+            "VIF": vif_val
+        })
+    vif_df = pd.DataFrame(vif_data)
+    vif_df.to_csv("outputs/vif_metrics.csv", index=False)
+
     with open("outputs/regression_summary.txt", "w") as f:
         f.write(model.summary().as_text())
 
@@ -68,6 +81,7 @@ def run_model(df=None):
         "model": model,
         "coefficients": coef_df,
         "metrics": metrics_df,
+        "vif": vif_df,
     }
 
 

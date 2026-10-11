@@ -21,6 +21,14 @@ from scripts.web_data_ingestion import (
 )
 from stakeholder_packager import generate_stakeholder_package
 
+import pytest
+
+@pytest.fixture(autouse=True)
+def setup_model_outputs():
+    """Ensure output CSVs exist before any test runs."""
+    Path("outputs").mkdir(exist_ok=True)
+    run_model()
+
 
 def test_generate_energy_data_has_expected_columns():
     df = generate_energy_data()
@@ -196,7 +204,7 @@ def test_cross_source_spreads_only_compare_matching_market_dimensions():
     assert spreads.iloc[0]["buy_from_source"] == "Feed A"
     assert spreads.iloc[0]["sell_to_source"] == "Feed B"
     assert spreads.iloc[0]["gross_spread"] == 7.0
-    assert spreads.iloc[0]["gross_spread_pct"] == (7.0 / 42.0 * 100)
+    assert spreads.iloc[0]["gross_spread_pct"] == (7.0 / 42.0) * 100
 
 
 def test_cross_source_spreads_can_compare_companies_from_one_feed():
