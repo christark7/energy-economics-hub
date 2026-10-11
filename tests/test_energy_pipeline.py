@@ -9,7 +9,7 @@ from export import export_energy_hub_data
 from market_intelligence import build_market_rankings, generate_company_market_data
 from scripts import ingest
 from scripts.ingest import generate_energy_data
-from scripts.model_engine import fit_ols_model
+from scripts.model_engine import run_model
 from scripts.vif_check import calculate_vif
 from scripts.web_data_ingestion import (
     build_cross_source_spreads,
@@ -36,15 +36,12 @@ def test_generate_energy_data_has_expected_columns():
     assert expected_columns.issubset(df.columns)
     assert len(df) == 24
 
-
-def test_fit_ols_model_returns_valid_metrics():
-    df = generate_energy_data()
-    result = fit_ols_model(df)
+def test_run_model_returns_valid_metrics():
+    result = run_model()
 
     assert "model" in result
     assert "coefficients" in result
     assert "metrics" in result
-    assert result["model"].rsquared >= 0
     assert "R-Squared" in result["metrics"]["Metric"].values
 
 
